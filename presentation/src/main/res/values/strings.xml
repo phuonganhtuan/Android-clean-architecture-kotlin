@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Demo_Clean_Arch</string>
+    <string name="get_new_activity">Get new activity</string>
+
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+</resources>
