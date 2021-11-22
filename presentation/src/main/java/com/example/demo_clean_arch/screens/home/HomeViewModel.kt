@@ -34,7 +34,7 @@ class HomeViewModel @Inject constructor(
         getTrendingMovies()
     }
 
-    private fun getTrendingMovies() = viewModelScope.launch {
+    fun getTrendingMovies() = viewModelScope.launch {
         _isLoading.value = true
         try {
             flowOf(getTrendingMoviesUseCase.invokeSuspend(GetTrendingMoviesUseCase.Params(Constants.apiKey))).collect {
@@ -43,14 +43,13 @@ class HomeViewModel @Inject constructor(
                 }
             }
         } catch (exception: Exception) {
-            _errorMsg.value = "Error fetching new activity."
-            resetError()
+            _errorMsg.value = "Error fetching new trending movies."
         } finally {
             _isLoading.value = false
         }
     }
 
-    private fun resetError() {
+    fun resetError() {
         _errorMsg.value = ""
     }
 }

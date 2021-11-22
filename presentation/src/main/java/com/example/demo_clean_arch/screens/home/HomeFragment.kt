@@ -79,6 +79,7 @@ class HomeFragment : BaseDataBindingFragment<FragmentHomeBinding>(), HomeNavigat
                 errorMsd.collect {
                     if (it.isNotEmpty()) {
                         Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                        resetError()
                     }
                 }
             }

@@ -2,14 +2,11 @@ package com.example.data
 
 import com.example.data.datasource.local.datasource.MainLocalDataSource
 import com.example.data.datasource.remote.datasource.MainRemoteDataSource
-import com.example.data.mapper.fromData.ActivityModelMapper
-import com.example.data.mapper.toData.ActivityEntityMapper
-import com.example.data.model.DemoEntity
+import com.example.data.mapper.MovieSummaryModelMapper
 import com.example.data.repository.MainRepositoryImpl
 import com.example.data.utils.createList
-import com.example.domain.model.DemoDomainEntity
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
+import com.example.data.utils.createListDomainModel
+import com.example.data.utils.createResponseObject
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Before
@@ -22,29 +19,6 @@ import org.powermock.modules.junit4.PowerMockRunner
 
 @RunWith(PowerMockRunner::class)
 class MainRepositoryTest {
-
-    val demoEntity = DemoEntity(
-        id = 5,
-        accessibility = 1.8,
-        activity = "Test activity",
-        link = "Test link",
-        key = "TK",
-        participants = 7,
-        price = 0.4,
-        type = "Outside"
-    )
-
-    val demoDomainEntity = DemoDomainEntity(
-        id = 5,
-        accessibility = 1.8,
-        activity = "Test activity",
-        link = "Test link",
-        key = "TK",
-        participants = 7,
-        price = 0.4,
-        type = "Outside"
-    )
-
 
     @Mock
     private lateinit var localDataSource: MainLocalDataSource
@@ -61,29 +35,17 @@ class MainRepositoryTest {
             repository = MainRepositoryImpl(
                 localDataSource,
                 remoteDataSource,
-                ActivityModelMapper(),
-                ActivityEntityMapper()
+                MovieSummaryModelMapper(),
             )
-            Mockito.`when`(localDataSource.getAllEntities()).thenReturn(flowOf(createList()))
-            Mockito.`when`(remoteDataSource.getRandomActivity()).thenReturn(demoEntity)
-            Mockito.`when`(localDataSource.addEntity(demoEntity)).thenReturn(Unit)
+            Mockito.`when`(remoteDataSource.getTrendingMovies("test_key"))
+                .thenReturn(createResponseObject())
         }
     }
 
     @Test
-    fun getRandomActivityTest() = runBlocking {
-        val result = repository.getRandomActivity()
-        Assert.assertEquals(demoEntity, result)
-    }
-
-    @Test
-    fun getLocalActivitiesTest() = runBlocking {
-        val results = repository.getAllEntities()
-        Assert.assertEquals(createList(), results.first())
-    }
-
-    @Test
-    fun saveActivitiesTest() = runBlocking {
-        Assert.assertNotNull(repository.addEntity(demoDomainEntity))
+    fun getTrendingMoviesTest() = runBlocking {
+        val expect = createListDomainModel()
+        val result = repository.getTrendings("test_key")
+        Assert.assertEquals(expect, result)
     }
 }
