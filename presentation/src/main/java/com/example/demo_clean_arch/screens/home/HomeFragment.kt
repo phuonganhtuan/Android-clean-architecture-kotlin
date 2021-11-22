@@ -42,7 +42,6 @@ class HomeFragment : BaseDataBindingFragment<FragmentHomeBinding>(), HomeNavigat
     }
 
     override fun toDetail(item: MovieSummaryModel) {
-//        findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment, item.toBundle())
     }
 
     override fun goBack() {
@@ -67,13 +66,6 @@ class HomeFragment : BaseDataBindingFragment<FragmentHomeBinding>(), HomeNavigat
     }
 
     private fun observeData() = with(viewModel) {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                trendingMovieList.collect {
-                    adapter.submitList(it.asReversed())
-                }
-            }
-        }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 errorMsd.collect {
