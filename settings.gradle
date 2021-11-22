@@ -16,3 +16,4 @@ rootProject.name = "Demo_Clean_Arch"
 include ':presentation'
 include ':domain'
 include ':data'
+include ':shared'

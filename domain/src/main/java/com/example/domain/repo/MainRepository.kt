@@ -1,12 +1,8 @@
 package com.example.domain.repo
 
-import com.example.domain.model.DemoDomainEntity
-import kotlinx.coroutines.flow.Flow
+import com.example.domain.model.MovieSummary
 
 interface MainRepository {
 
-    fun getAllEntities(): Flow<List<DemoDomainEntity>>
-    suspend fun addEntity(entity: DemoDomainEntity)
-    suspend fun deleteEntity(entity: DemoDomainEntity)
-    suspend fun getRandomActivity(): DemoDomainEntity
+    suspend fun getTrendings(key: String): List<MovieSummary>
 }

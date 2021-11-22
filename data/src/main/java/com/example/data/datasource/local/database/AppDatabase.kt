@@ -5,9 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.data.datasource.local.dao.DemoDao
-import com.example.data.model.DemoEntity
+import com.example.data.model.MovieSummaryEntity
 
-@Database(entities = [DemoEntity::class], version = 1, exportSchema = false)
+@Database(entities = [MovieSummaryEntity::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun demoDao(): DemoDao

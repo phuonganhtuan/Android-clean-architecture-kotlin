@@ -1,10 +1,9 @@
 package com.example.data.di
 
-import com.example.data.model.DemoEntity
-import com.example.data.mapper.toData.ActivityEntityMapper
-import com.example.data.mapper.fromData.ActivityModelMapper
+import com.example.data.mapper.MovieSummaryModelMapper
+import com.example.data.model.MovieSummaryEntity
 import com.example.domain.mapper.Mapper
-import com.example.domain.model.DemoDomainEntity
+import com.example.domain.model.MovieSummary
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,12 +14,7 @@ import dagger.hilt.android.components.ViewModelComponent
 abstract class HiltModules {
 
     @Binds
-    abstract fun bindModelMapper(
-        modelMapper: ActivityModelMapper
-    ): Mapper<DemoEntity, DemoDomainEntity>
-
-    @Binds
-    abstract fun bindEntityMapper(
-        entityMapper: ActivityEntityMapper
-    ): Mapper<DemoDomainEntity, DemoEntity>
+    abstract fun bindMovieMapper(
+        entityMapper: MovieSummaryModelMapper
+    ): Mapper<MovieSummaryEntity, MovieSummary>
 }

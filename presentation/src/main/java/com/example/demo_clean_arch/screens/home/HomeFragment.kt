@@ -7,12 +7,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import com.example.demo_clean_arch.R
 import com.example.demo_clean_arch.base.BaseDataBindingFragment
 import com.example.demo_clean_arch.base.ItemClickListener
 import com.example.demo_clean_arch.databinding.FragmentHomeBinding
-import com.example.demo_clean_arch.model.ActivityModel
+import com.example.demo_clean_arch.model.MovieSummaryModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -28,7 +27,7 @@ class HomeFragment : BaseDataBindingFragment<FragmentHomeBinding>(), HomeNavigat
     private val viewModel: HomeViewModel by viewModels()
 
     @Inject
-    lateinit var adapter: ActivityAdapter
+    lateinit var adapter: MovieSummaryAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,8 +41,8 @@ class HomeFragment : BaseDataBindingFragment<FragmentHomeBinding>(), HomeNavigat
 
     }
 
-    override fun toDetail(item: ActivityModel) {
-        findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment, item.toBundle())
+    override fun toDetail(item: MovieSummaryModel) {
+//        findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment, item.toBundle())
     }
 
     override fun goBack() {
@@ -51,11 +50,11 @@ class HomeFragment : BaseDataBindingFragment<FragmentHomeBinding>(), HomeNavigat
     }
 
     override fun onItemClick(view: View?, position: Int) {
-        toDetail(viewModel.localActivityList.value.asReversed()[position])
+        toDetail(viewModel.trendingMovieList.value[position])
     }
 
     private fun initViews() = with(binding) {
-        recyclerActivities.adapter = adapter
+        recyclerTrending.adapter = adapter
         adapter.clickListener = this@HomeFragment
     }
 
@@ -64,15 +63,13 @@ class HomeFragment : BaseDataBindingFragment<FragmentHomeBinding>(), HomeNavigat
     }
 
     private fun setupEvents() = with(binding) {
-        buttonGetActivity.setOnClickListener {
-            viewModel?.getRandomActivity()
-        }
+
     }
 
     private fun observeData() = with(viewModel) {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                localActivityList.collect {
+                trendingMovieList.collect {
                     adapter.submitList(it.asReversed())
                 }
             }
@@ -82,7 +79,6 @@ class HomeFragment : BaseDataBindingFragment<FragmentHomeBinding>(), HomeNavigat
                 errorMsd.collect {
                     if (it.isNotEmpty()) {
                         Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-                        viewModel.resetError()
                     }
                 }
             }

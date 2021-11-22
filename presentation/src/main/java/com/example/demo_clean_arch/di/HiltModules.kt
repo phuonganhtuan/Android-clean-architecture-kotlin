@@ -1,10 +1,9 @@
 package com.example.demo_clean_arch.di
 
-import com.example.demo_clean_arch.mapper.ActivityDomainMapper
-import com.example.demo_clean_arch.mapper.ActivityMapper
-import com.example.demo_clean_arch.mapper.Mapper
-import com.example.demo_clean_arch.model.ActivityModel
-import com.example.domain.model.DemoDomainEntity
+import com.example.demo_clean_arch.mapper.MovieSummaryMapper
+import com.example.demo_clean_arch.model.MovieSummaryModel
+import com.example.domain.mapper.Mapper
+import com.example.domain.model.MovieSummary
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,12 +14,7 @@ import dagger.hilt.android.components.ViewModelComponent
 abstract class LocalModules {
 
     @Binds
-    abstract fun bindActivityMapper(
-        mapper: ActivityMapper
-    ): Mapper<DemoDomainEntity, ActivityModel>
-
-    @Binds
-    abstract fun bindActivityDomainMapper(
-        mapper: ActivityDomainMapper
-    ): Mapper<ActivityModel, DemoDomainEntity>
+    abstract fun bindMovieModelMapper(
+        mapper: MovieSummaryMapper
+    ): Mapper<MovieSummary, MovieSummaryModel>
 }
