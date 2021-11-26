@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.example.demo_clean_arch.model.PresentationModel
 import com.example.shared.Constants
@@ -32,6 +33,12 @@ class BindingAdapters {
             (view.adapter as? androidx.recyclerview.widget.ListAdapter<PresentationModel, *>)?.submitList(
                 list
             )
+        }
+
+        @JvmStatic
+        @BindingAdapter("app:loading")
+        fun loadingHandler(view: SwipeRefreshLayout, loading: Boolean?) {
+            view.isRefreshing = loading == true
         }
     }
 }
